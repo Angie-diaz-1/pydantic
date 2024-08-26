@@ -3,7 +3,7 @@ from typing import Optional
 from pydantic import BaseModel, Field, EmailStr
 
 
-class Adress(BaseModel):
+class Address(BaseModel):
     city:str
     country:str
 
@@ -12,4 +12,4 @@ class User(BaseModel):
     name:str = Field(...,min_length=3)
     email:EmailStr = Field(...,min_length=3)
     age: Optional[int]=Field(None, ge=18)
-    addres:Addres=Field(...)
+    addres:Address=Field(...)
