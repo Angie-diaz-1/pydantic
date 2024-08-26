@@ -1,13 +1,23 @@
 from typing import List
-from app.schemas.user_schema import User
 
-#simulador base de datos
-fake_user_db:List[User]=[]
+from sqlalchemy.orm import session, Session
+
+from app.models.user_model import UserORM
+from app.schemas.user_schema import UserRequest
+
 
 #Obtener users
-def get_all_users()-> List[User]:
-    return fake_user_db
+def get_all_users(bd: session)-> List[UserORM]:
+    return bd.query(UserORM).all()
 
-def add_user(user:User)->User:
-    fake_user_db.append(user)
-    return fake_user_db[-1]
+def add_user(bd: Session, user: UserRequest)->UserORM:
+    bd_user=UserORM(
+     name=user.name,
+     email=user.email,
+     age=user.age,
+     city=user.addres.city,
+     country=user.addres.country,
+    )
+    bd.add(bd_user)
+    bd.commit()
+    return bd_user
